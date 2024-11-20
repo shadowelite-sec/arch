@@ -73,7 +73,6 @@ home_ctl(){
     pywalfox install
     # zap install 
     cd
-    zsh <(curl -s https://raw.githubusercontent.com/zap-zsh/zap/master/install.zsh) --branch release-v1
     # change shell 
     chsh -s /bin/zsh
     wget https://raw.githubusercontent.com/shadowelite-sec/scripts/main/limitd
@@ -374,6 +373,5 @@ XDG_MENU_PREFIX=arch- kbuildsycoca6
 # clean
 rm ~/limitd
 rm -rf ~/yay
-mv .zshrc_2024* .zshrc
 echo "Installation complete."
 echo "Everything is Done , Now Reboot"
