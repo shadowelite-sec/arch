@@ -70,31 +70,32 @@ EOF
 }
 
 setup_repo(){
-  
-  sudo pacman-key --init 
-  # Setup athena
+  # Initialize the keyring if it's not already initialized
+  sudo pacman-key --init
+  sudo pacman-key --populate archlinux
+
+  # Setup athena repo and key
   if [ ! -f /etc/pacman.d/athena-mirrorlist ]; then
-    sudo curl https://raw.githubusercontent.com/Athena-OS/athena/main/packages/os-specific/athena-mirrorlist/athena-mirrorlist -o /etc/pacman.d/athena-mirrorlist
-    sudo pacman-key --recv-keys A3F78B994C2171D5 --keyserver keys.openpgp.org
-    sudo pacman-key --lsign A3F78B994C2171D5
+	  sudo curl https://raw.githubusercontent.com/Athena-OS/athena/main/packages/os-specific/system/athena-mirrorlist/athena-mirrorlist -o /etc/pacman.d/athena-mirrorlist
+    if ! sudo pacman-key --list-keys A3F78B994C2171D5 > /dev/null 2>&1; then
+      sudo pacman-key --recv-keys A3F78B994C2171D5 --keyserver keys.openpgp.org
+      sudo pacman-key --lsign A3F78B994C2171D5
+    fi
     echo -e "${GREEN}Athena repo installed successfully.${NC}"
   else
       echo -e "${YELLOW}[!] Athena Repo Already Installed${NC}"
   fi
 
-  # Setup chaotic
+  # Setup chaotic repo and key
   if [ ! -f /etc/pacman.d/chaotic-mirrorlist ]; then
-      sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
-      sudo pacman-key --lsign-key 3056513887B78AEB
-      sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
-      sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
-      echo -e "${GREEN}Chaotic repo installed successfully.${NC}"
+    sudo pacman-key --recv-key 3056513887B78AEB --keyserver keyserver.ubuntu.com
+    sudo pacman-key --lsign-key 3056513887B78AEB
+    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-keyring.pkg.tar.zst'
+    sudo pacman -U --noconfirm 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-mirrorlist.pkg.tar.zst'
+    echo -e "${GREEN}Chaotic repo installed successfully.${NC}"
   else
       echo -e "${YELLOW}[!] Chaotic Repo Already Installed${NC}"
   fi
-  sudo pacman-key --init
-  sudo pacman-key --populate archlinux
-
 }
 
 main(){

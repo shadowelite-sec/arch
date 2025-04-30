@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Install PostgreSQL without confirmation
+sudo pacman -Sy --noconfirm postgresql
+
+# Switch to the postgres user and initialize the database
+sudo -u postgres bash <<EOF
+initdb --locale \$LANG -E UTF8 -D '/var/lib/postgres/data'
+EOF
+
+# Enable and start the PostgreSQL service
+sudo systemctl enable postgresql.service
+sudo systemctl start postgresql.service
+
+if [[ $? == 0 ]]; then
+	echo "installed successfully"
+else
+	echo "install failed"
+fi

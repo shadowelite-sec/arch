@@ -63,14 +63,14 @@ install_dots() {
 
 home_ctl(){
     cd
-    mkdir ~/ctf ~/screenshot 
+    mkdir ~/ctf ~/screenshot ~/bug 
     mkdir -p ~/.local/share/themes
-    git clone --depth=1 https://github.com/B21q/Corvus.git ~/.local/share/themes/Corvus
+    #git clone --depth=1 https://github.com/B21q/Corvus.git ~/.local/share/themes/Corvus
     git clone --depth=1 https://github.com/vinceliuice/Colloid-icon-theme.git /tmp/icons
     cd /tmp/icons 
     ./install.sh -t all -s all
-    pip install --break-system-packages --index-url https://test.pypi.org/simple/ pywalfox==2.8.0rc1
-    pywalfox install
+    #pip install --break-system-packages --index-url https://test.pypi.org/simple/ pywalfox==2.8.0rc1
+    #sudo pywalfox install
     # zap install 
     cd
     # change shell 
@@ -117,6 +117,9 @@ hypr_pkgs=(
     cpio 
     gtkmm-4.0
     gtk4-layer-shell
+    udis86
+    ibus
+    python-pywalfox
     
     # python dependencies 
     python 
@@ -128,7 +131,8 @@ hypr_pkgs=(
 
     # dots manager and file
     stow
-    xdg-user-dirs 
+    xdg-user-dirs
+    zoxide
     
     # hyprland core
     hyprutils-git
@@ -154,24 +158,30 @@ hypr_pkgs=(
     waybar-git 
     
     # terminal
-    foot-git 
+    foot-git
+    kitty
     
     # wallpaper
     swww
     waypaper
-    wallust-git
+    matugen-bin
+    adw-gtk-theme
 
     # logout
     wlogout-git
 
     # font
     ttf-sourcecodepro-nerd
+    ttf-press-start-2p
 
     # scratchpad
     pyprland
     libinput-gestures
+
+    # helpers 
     swaync
     rofi-lbonn-wayland-git 
+    rofi-emoji-git
 
     # waybar font
     ttf-jetbrains-mono-nerd
@@ -243,13 +253,14 @@ user_pkgs=(
     vesktop-bin
 
     # media
-    #nemo 
-    #nemo-fileroller 
-    #tumbler
-    dolphin
+    nemo 
+    nemo-fileroller 
+    tumbler
+    #dolphin
     qt5-imageformats
     archlinux-xdg-menu
     ffmpegthumbs
+    viewnior
     ark
     #ffmpegthumbnailer 
     gvfs 
@@ -283,9 +294,6 @@ user_pkgs=(
     zathura-pdf-mupdf
     sioyek
     pdfarranger
-
-    # LaTeX
-    texlive
 
     # file manager
     lf
@@ -324,7 +332,6 @@ user_pkgs=(
     #mpc 
     #mpd 
     #ncmpcpp 
-    cava-git 
     pamixer
     easyeffects
     # Add more packages here...
@@ -356,8 +363,6 @@ install_dots
 
 echo "Installing User Applications and Utils"
 install "${user_pkgs[@]}"
-
-spotup
 
 echo "Installing Nvidia Pkgs"
 install "${nvidia_pkgs[@]}"

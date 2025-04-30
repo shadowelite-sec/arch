@@ -190,7 +190,9 @@ spotup(){
 	yay -S --noconfirm spotify-adblock-git
 	sudo chmod a+wr /opt/spotify 
 	sudo chmod a+wr /opt/spotify/Apps -R
-	yay -S --noconfirm spicetify-themes-git spicetify-cli
+	yay -S --noconfirm spicetify-cli
+  spotify
+  git clone --depth=1 https://github.com/spicetify/spicetify-themes.git ~/.config/spicetify/Themes
 	spicetify config current_theme text
 	spicetify config color_scheme RosePine 
 	spicetify backup apply

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# read comments and print pkg installing also hyprnoti
+
 sec_pkgs=(
     
     # reverse
@@ -26,29 +28,63 @@ sec_pkgs=(
     # exploitation
     metasploit 
     
-    # web 
+    ### web ###
     burpsuite-pro
     ffuf-bin
     sqlmap
+    
+    # recon
     theharvester-git
     feroxbuster-bin
     pdtm-bin
     httprobe
     gau
-    
+    athena/gf
+    waybackurls
+    waymore
+    dalfox
+    amass
+    403jump-git
+    subjack
+    dirsearch
+    arjun
+    findomain
+    assetfinder
+    sublist3r
+    subbrute
+
+    # screenshot
+    aquatone
+    gowitness
+
     # Add more packages here...
 )
 
-write_burp(){
-sudo tee /bin/burpsuite-pro << EOF
-exec "$JAVA_HOME/bin/java" --add-opens=java.desktop/javax.swing=ALL-UNNAMED \\
-    --add-opens=java.base/java.lang=ALL-UNNAMED \\
-    --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED \\
-    --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED \\
-    --add-opens=java.base/jdk.internal.org.objectweb.asm.Opcodes=ALL-UNNAMED \\
-    -javaagent:/media/storage/assets/lostsec.jar \\
-    -noverify -jar /usr/share/burpsuite-pro/burpsuite-pro.jar
-EOF
- java -jar /media/storage/assets/lostsec.jar
- burpsuite-pro
+install() {
+    for pkg in "$@"; do
+        yay -S --noconfirm "$pkg"
+        if [ $? -ne 0 ]; then
+            echo "$pkg" >> failed_sec_pkgs.log
+        fi
+    done
 }
+
+write_burp(){
+  if [ -f /bin/burpsuite-pro ]; then
+    sudo tee /bin/burpsuite-pro << EOF
+    exec "$JAVA_HOME/bin/java" --add-opens=java.desktop/javax.swing=ALL-UNNAMED \\
+        --add-opens=java.base/java.lang=ALL-UNNAMED \\
+        --add-opens=java.base/jdk.internal.org.objectweb.asm=ALL-UNNAMED \\
+        --add-opens=java.base/jdk.internal.org.objectweb.asm.tree=ALL-UNNAMED \\
+        --add-opens=java.base/jdk.internal.org.objectweb.asm.Opcodes=ALL-UNNAMED \\
+        -javaagent:/media/storage/assets/lostsec.jar \\
+        -noverify -jar /usr/share/burpsuite-pro/burpsuite-pro.jar
+EOF
+    java -jar /media/storage/assets/lostsec.jar
+    burpsuite-pro
+  fi
+}
+
+echo "Installing Security testing packages"
+install "${sec_pkgs[@]}"
+write_burp
